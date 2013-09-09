@@ -31,7 +31,31 @@ if ('development' == app.get('env')) {
 }
 
 var articleProvider = new ArticleProvider();
-app.get('/', routes.index);
+
+app.get('/', function(req, res){
+  articleProvider.findAll(function(err, docs){
+    res.render('index', {
+      title: 'Blog',
+      articles:docs
+    });
+  });
+});
+
+app.get('/blog/new', function(req, res){
+  res.render('blog_new', {
+    title: 'New Post'
+  });
+});
+
+app.post('/blog/new', function(req, res){
+  articleProvider.save({
+    title: req.param('title'),
+    body: req.param('body')
+  }, function(err, docs){
+    app.redirect('/');
+  })
+})
+
 app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
