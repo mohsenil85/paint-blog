@@ -52,7 +52,7 @@ app.post('/blog/new', function(req, res){
     title: req.param('title'),
     body: req.param('body')
   }, function(err, docs){
-    app.redirect('/');
+    res.redirect('/');
   })
 })
 
