@@ -9,10 +9,12 @@ var user = require('./routes/user');
 var http = require('http');
 var path = require('path');
 
+var ArticleProvider = require('./art-prov').ArticleProvider;
+
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -28,6 +30,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+var articleProvider = new ArticleProvider();
 app.get('/', routes.index);
 app.get('/users', user.list);
 
